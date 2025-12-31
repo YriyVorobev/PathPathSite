@@ -12,10 +12,11 @@ class BasePage(metaclass=MetaLocator):
 
     _MY_INFO_ITEM = "//a/span[text()='My Info']"
 
+
     def __init__(self,driver):
         self.driver: WebDriver = driver
         self.wait = WebDriverWait(self.driver, 10, poll_frequency=1)
-        self.action = ActionChains
+        self.action = ActionChains(self.driver)
         self.faker = Faker()
         self.log = logging.getLogger(self.__class__.__name__)
 
@@ -28,3 +29,4 @@ class BasePage(metaclass=MetaLocator):
 
     def go_to_my_info_page(self):
         self.wait.until(EC.element_to_be_clickable(self._MY_INFO_ITEM)).click()
+

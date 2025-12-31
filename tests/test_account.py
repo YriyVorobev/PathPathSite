@@ -30,13 +30,14 @@ class TestAccount(BaseTest):
         self.my_info_page.personal_details.changed_employee_id("12345")
         self.my_info_page.personal_details.changed_other_id("12345")
         self.my_info_page.personal_details.drivers_licence_numbers("12330")
-        self.my_info_page.personal_details.licence_expire_date("2025-18-12")
-        self.my_info_page.personal_details.date_of_birth("1997-14-10")
+        self.my_info_page.personal_details.licence_expire_date("12-24-2025")
+        self.my_info_page.personal_details.date_of_birth("10-12-1997")
         self.my_info_page.personal_details.gender_male()
         self.my_info_page.personal_details.save_changed()
-        self.my_info_page.personal_details.test_field("323435")
+        self.my_info_page.personal_details.test_field("323434")
         self.my_info_page.personal_details.browser_load()
         self.my_info_page.personal_details.click_button_save()
+        self.my_info_page.go_to_contact_detail()
 
 
 
