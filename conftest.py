@@ -3,6 +3,7 @@ import logging
 import os
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from faker import Faker
 
 
 @pytest.fixture(autouse=True, scope="class")
@@ -10,6 +11,7 @@ def driver(request):
 
     chrome_options = Options()
     chrome_options.add_experimental_option("excludeSwitches",["enable-logging"])
+    # chrome_options.add_argument("--headless")
     chrome_options.add_argument("--window-size=1920,1080")
 
     driver = webdriver.Chrome(options=chrome_options)
@@ -35,3 +37,8 @@ def setup_logging():
     console_handler.setFormatter(formatter)
     root_logger.addHandler(file_handler)
     root_logger.addHandler(console_handler)
+
+@pytest.fixture(scope="session")
+def faker_ru():
+    faker = Faker("ru_RU")
+    return faker
