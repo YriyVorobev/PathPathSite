@@ -6,6 +6,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from allure_commons.types import Severity
 from selenium.webdriver import Keys
 from data.path import CAT_IMAGE
+import platform
 
 
 class PersonalDetailsComponents(BasePage):
@@ -29,10 +30,13 @@ class PersonalDetailsComponents(BasePage):
     @pytest.mark.smoke
     @allure.severity(Severity.BLOCKER)
     @allure.step("Name changes")
-    def change_first_name(self,first_name):
+    def change_first_name(self,first_name: str):
         frist_name_field = self.wait.until(EC.element_to_be_clickable(self._FIRST_NAME))
-        current_value = frist_name_field.get_attribute("value")
-        frist_name_field.send_keys(Keys.COMMAND + "A")
+        frist_name_field.click()
+        if platform.system() == "Darwin":
+            frist_name_field.send_keys(Keys.COMMAND + "A")
+        else:
+            frist_name_field.send_keys(Keys.CONTROL + "A")
         frist_name_field.send_keys(Keys.BACKSPACE)
         allure.attach(
             self.driver.get_screenshot_as_png(),
@@ -40,7 +44,7 @@ class PersonalDetailsComponents(BasePage):
             attachment_type=allure.attachment_type.PNG
         )
         frist_name_field.send_keys(first_name)
-        assert frist_name_field.get_attribute("value") == first_name, f"Значения {first_name}не поменялось"
+        assert frist_name_field.get_attribute("value") == first_name, f"Значения {first_name} не поменялось"
         allure.attach(
             body=self.driver.get_screenshot_as_png(),
             name="Имя поменяли",
@@ -50,7 +54,7 @@ class PersonalDetailsComponents(BasePage):
     @pytest.mark.smoke
     @allure.severity(Severity.BLOCKER)
     @allure.step("Changes middle name")
-    def changed_middle_name(self, middle_name):
+    def changed_middle_name(self, middle_name: str):
         middle_name_field = self.wait.until(EC.element_to_be_clickable(self._MIDDLE_NAME))
         middle_name_field.send_keys(Keys.COMMAND + "A")
         middle_name_field.send_keys(Keys.BACKSPACE)
@@ -65,14 +69,18 @@ class PersonalDetailsComponents(BasePage):
             name="Проверяем поле middle_name",
             attachment_type=allure.attachment_type.PNG
         )
-        assert middle_name_field.get_attribute("value") == middle_name, f"Значения {middle_name}не поменялось"
+        assert middle_name_field.get_attribute("value") == middle_name,f"Значение не поменялось {middle_name}"
+
 
     @pytest.mark.smoke
     @allure.severity(Severity.BLOCKER)
     @allure.step("Changes Last Name")
     def last_name_changed(self,last_name):
         last_name_field = self.wait.until(EC.element_to_be_clickable(self._LAST_NAME))
-        last_name_field.send_keys(Keys.COMMAND + "A")
+        if platform.system() == "Darwin":
+            last_name_field.send_keys(Keys.COMMAND + "A")
+        else:
+            last_name_field.send_keys(Keys.CONTROL + "A")
         last_name_field.send_keys(Keys.BACKSPACE)
         allure.attach(
             body=self.driver.get_screenshot_as_png(),
@@ -90,9 +98,12 @@ class PersonalDetailsComponents(BasePage):
     @pytest.mark.smoke
     @allure.severity(Severity.BLOCKER)
     @allure.step("Changes Employee ID ")
-    def changed_employee_id(self,employee_id):
+    def changed_employee_id(self,employee_id: str):
         employee_id_field = self.wait.until(EC.element_to_be_clickable(self._EMPLOYEE_ID))
-        employee_id_field.send_keys(Keys.COMMAND + "A")
+        if platform.system() == "Darwin":
+             employee_id_field.send_keys(Keys.COMMAND + "A")
+        else:
+            employee_id_field.send_keys(Keys.CONTROL + "A")
         employee_id_field.send_keys(Keys.BACKSPACE)
         allure.attach(
             body=self.driver.get_screenshot_as_png(),
@@ -107,14 +118,17 @@ class PersonalDetailsComponents(BasePage):
             attachment_type=allure.attachment_type.PNG
 
         )
-        assert employee_id_field.get_attribute("value") == employee_id, f"Значения {employee_id}не поменялось"
+        assert employee_id_field.get_attribute("value") == employee_id, f"Значения {employee_id} не поменялось"
 
     @pytest.mark.smoke
     @allure.step("Changes Other id")
     @allure.severity(Severity.BLOCKER)
     def changed_other_id(self,other_id):
         other_id_field = self.wait.until(EC.element_to_be_clickable(self._OTHER_ID))
-        other_id_field.send_keys(Keys.COMMAND + "A")
+        if platform.system() == "Darwin":
+            other_id_field.send_keys(Keys.COMMAND + "A")
+        else:
+            other_id_field.send_keys(Keys.CONTROL + "A")
         other_id_field.send_keys(Keys.BACKSPACE)
         allure.attach(
             body=self.driver.get_screenshot_as_png(),
@@ -122,6 +136,7 @@ class PersonalDetailsComponents(BasePage):
             attachment_type=allure.attachment_type.PNG
         )
         other_id_field.send_keys(other_id)
+        other_id_field.send_keys(Keys.TAB)
         allure.attach(
             body=self.driver.get_screenshot_as_png(),
             name="Changed Other ID fill in",
